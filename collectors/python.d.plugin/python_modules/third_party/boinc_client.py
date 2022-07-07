@@ -467,7 +467,7 @@ class BoincClient(object):
         if password is None and not self.hostname:
             password = read_gui_rpc_password() or ""
         nonce = self.rpc.call('<auth1/>').text
-        authhash = hashlib.md5('{0}{1}'.format(nonce, password).encode()).hexdigest().lower()
+        authhash = hashlib.sha256('{0}{1}'.format(nonce, password).encode()).hexdigest().lower()
         reply = self.rpc.call('<auth2><nonce_hash>{0}</nonce_hash></auth2>'.format(authhash))
 
         if reply.tag == 'authorized':
